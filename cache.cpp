@@ -1,5 +1,4 @@
 #include <fstream>
-// #include <ifstream>
 
 struct el
 {
@@ -14,8 +13,12 @@ class Cache
     Node *first;
     Node *last;
     int length;
-    vector<string> structure;
     int str_size;
+    vector<string> structure;
+    string get_list(vector<el> &list);
+    string get_list_print(vector<el> &list);
+    el get_el(string str);
+    string get_table();
 
   public:
     string filename;
@@ -26,10 +29,6 @@ class Cache
     void set_struct(vector<string> data);
     void print();
     void print(string value);
-    string get_list(vector<el> &list);
-    string get_list_print(vector<el> &list);
-    el get_el(string str);
-    string get_table();
     int get_struct_size();
     void load(string filename);
     void set_file(string str);
@@ -46,8 +45,8 @@ class Cache::Node
     Node(int id)
     {
         this->id = id;
-    }
-    Node() {}
+    };
+    Node() {};
 };
 
 Cache::Cache()
@@ -106,27 +105,23 @@ void Cache::push(vector<string> data)
         length++;
         return;
     }
-}
+};
 
 string Cache::get_list(vector<el> &list)
 {
     string result;
     for (int i = 0; i < list.size(); i++)
-    {
         result = result + to_string(list[i].id) + " | " + join(list[i].data, ' ') + '\t';
-    }
     return result;
-}
+};
 
 string Cache::get_list_print(vector<el> &list)
 {
     string result = "| " + join(list[0].data, " | ");
     for (int i = 1; i < list.size(); i++)
-    {
         result = result + "\n| " + join(list[i].data, " | ");
-    }
     return result;
-}
+};
 
 void Cache::print()
 {
@@ -138,9 +133,7 @@ void Cache::print()
     Node *tmp = first;
     cout << "| ";
     for (int i = 0; i < str_size; i++)
-    {
         cout << structure[i] + " | ";
-    }
     for (int i = 0; i < length - 1; i++)
     {
         cout << '\n'
@@ -148,7 +141,8 @@ void Cache::print()
         tmp = tmp->next;
     }
     cout << '\n';
-}
+};
+
 void Cache::print(string value)
 {
     int id = get_first_id(value);
@@ -156,16 +150,14 @@ void Cache::print(string value)
     if (first->id == id)
         result = first;
     else
-    {
         for (int i = 0; i < length - 1; i++)
         {
             if (result->id == id)
                 break;
             result = result->next;
         }
-    }
     cout << this->get_list_print(result->data) << '\n';
-}
+};
 
 el Cache::get_el(string str)
 {
@@ -188,22 +180,18 @@ el Cache::get_el(string str)
     {
         int second_id = get_second_id(str);
         for (int i = 0; i < result->data.size(); i++)
-        {
             if (result->data[i].id == second_id)
                 return result->data[i];
-        }
     }
     vector<string> res;
     return el{-1, res};
-}
+};
 
 string Cache::get_table()
 {
     string result = structure[0];
     for (int i = 1; i < str_size; i++)
-    {
         result = result + " | " + structure[i];
-    }
     result += '\n';
     Node *tmp = first;
     for (int i = 0; i < length - 1; i++)
@@ -212,8 +200,8 @@ string Cache::get_table()
         tmp = tmp->next;
     }
     return result;
-}
-//)><((()*>
+};
+
 void Cache::save()
 {
     if (str_size == 0)
@@ -228,23 +216,23 @@ void Cache::save()
         file << get_table();
         file.close();
     }
-}
+};
 
 void Cache::set_file(string str)
 {
     filename = str + ".bullsheet";
-}
+};
 
 int Cache::get_struct_size()
 {
     return str_size;
-}
+};
 
 void Cache::set_struct(vector<string> data)
 {
     structure = data;
     str_size = data.size();
-}
+};
 
 void Cache::load(string filename)
 {
@@ -286,6 +274,7 @@ void Cache::load(string filename)
     else
         cout << "Can't read file" << filename << endl;
 };
+
 void Cache::update(string name, vector<string> &data)
 {
     int id = get_first_id(name);
@@ -304,11 +293,7 @@ void Cache::update(string name, vector<string> &data)
         result = tmp;
     };
     for (int i = 0; i < result->data.size(); i++)
-    {
         if (result->data[i].data[0] == name)
-        {
             result->data.erase(result->data.begin() + i);
-        };
-    };
     push(data);
-}
+};

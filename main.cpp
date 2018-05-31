@@ -16,9 +16,7 @@ int main(int argc, char *argv[])
         if (input == "exit" || input == "exit;")
             break;
         if (data[0] == "set file " && data.size() == 3 && data[2] == ";")
-        {
             Database.set_file(data[1]);
-        }
         else if (data[0] == "load file " && data.size() == 3 && data[2] == ";")
         {
             string name = data[1];
@@ -42,29 +40,21 @@ int main(int argc, char *argv[])
         {
             vector<string> tmp;
             for (int i = 1; i < data.size(); i += 2)
-            {
                 tmp.push_back(data[i]);
-            }
             Database.set_struct(tmp);
         }
         else if (input == "save;")
-        {
             Database.save();
-        }
         else if (data[0] == "print " && data.size() == 3 && data[2] == ";")
         {
             string name = data[1];
             Database.print(name);
         }
         else if (input == "print;")
-        {
             Database.print();
-        }
         else if (input == "help;")
-        {
             help();
-        }
         else
             parsing_err();
-    }
-}
+    };
+};
